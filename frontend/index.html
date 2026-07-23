@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Classification</title>
+</head>
+
+<body>
+
+<h1>Document Image Classification</h1>
+
+<input type="file" id="fileInput">
+
+<button onclick="predict()">Predict</button>
+
+<h2 id="result"></h2>
+
+<script>
+
+async function predict(){
+
+let file = document.getElementById("fileInput").files[0];
+
+let formData = new FormData();
+
+formData.append("file", file);
+
+let response = await fetch(
+"http://127.0.0.1:8000/predict",
+{
+method:"POST",
+body:formData
+}
+);
+
+let data = await response.json();
+
+document.getElementById("result").innerHTML =
+"Prediction: " + data.prediction +
+"<br>Confidence: " + data.confidence.toFixed(2)+"%";
+
+}
+
+</script>
+
+</body>
+</html>
